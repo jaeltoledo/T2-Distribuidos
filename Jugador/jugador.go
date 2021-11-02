@@ -2,8 +2,23 @@ package main
 
 import (
 	"fmt"
-	"math/rand"
+  	"time"
+	"log"
+	"os"
+	"time"
+
+	"github.com/Tarea1/Express/logistica"
+	"golang.org/x/net/context"
+	"google.golang.org/grpc"
 )
+
+func mostrarMenu() {
+	fmt.Println("Bienvenido al Juego del Calamar")
+	fmt.Println("Seleccione la acción que desea realizar:")
+	fmt.Println("1. Enviar petición para unirse al juego")
+	fmt.Println("2. Ver el monto acumulado")
+	fmt.Println("3. Jugar Etapa")
+  }
 
 func enviarPeticion(){
 }
