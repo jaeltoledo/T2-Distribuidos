@@ -1,7 +1,7 @@
 package main
 
 import(
-)
+	)
 
 func iniciarJuego(){
 
@@ -30,3 +30,4 @@ func etapa3(){
 func main(){
 
 }
+
