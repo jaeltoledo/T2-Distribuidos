@@ -15,9 +15,9 @@ Es de suma importancia ejecutar en el siguiente orden las máquinas
 | Lugar | Máquina |
 |-------|-------- |
 | 1| dist69|
-| 1| dist70|
-| 1| dist71|
-| 1| dist72|
+| 2| dist70|
+| 3| dist71|
+| 4| dist72|
 
 En cada máquina aparecerán las instrucciones correspondientes sobre como continuar.
 
