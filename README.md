@@ -2,13 +2,13 @@
 ## Squid-Game
 
 Las máquinas virtuales están asociadas de la siguiente manera
-```
-dist69: Lider, DataNode
-dist70: Pozo, DataNode
-dist71: NameNode
-dist72: DataNode, DataNode
 
-```
+| Máquina | Procesos |
+|-------|-------- |
+| dist69| Lider, DataNode |
+| dist70| Pozo, DataNode|
+| dist71| NameNode|
+| dist72| DataNode, DataNode|
 
 Es de suma importancia ejecutar en el siguiente orden las máquinas
 
