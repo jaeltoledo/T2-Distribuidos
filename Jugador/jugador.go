@@ -6,6 +6,7 @@ import (
 	"log"
 	"os"
 	"time"
+	"math/Rand"
 
 	"github.com/Tarea1/Express/logistica"
 	"golang.org/x/net/context"
