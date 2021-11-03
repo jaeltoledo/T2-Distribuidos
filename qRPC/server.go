@@ -1,19 +1,16 @@
 package main
 
 import (
-	"fmt"
 	"log"
 	"net"
 
-	"github.com/tutorialedge/go-grpc-beginners-tutorial/chat"
+	"github.com/CDonosoK/T2-Distribuidos/chat"
 	"google.golang.org/grpc"
 )
 
 func main() {
 
-	fmt.Println("Go gRPC Beginners Tutorial!")
-
-	lis, err := net.Listen("tcp", fmt.Sprintf(":%d", 9000))
+	lis, err := net.Listen("tcp", ":9000")
 	if err != nil {
 		log.Fatalf("failed to listen: %v", err)
 	}
