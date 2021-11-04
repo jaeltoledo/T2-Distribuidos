@@ -9,7 +9,7 @@ import (
 )
 
 func main() {
-	// Crear el servidor
+	// Se crea el servidor en el puerto 9000
 	lis, err := net.Listen("tcp", ":9000")
 	if err != nil {
 		log.Fatalf("Error al crear el servidor: %v", err)

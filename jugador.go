@@ -66,10 +66,15 @@ func jugarEtapa1(){
 		//Comunicar al lider que el jugador fue eliminado
 	}
 }
+
+func etapa2(){}
+
+func etapa3(){}
 */
 
 func menuPrincipal() chat.Message{
 	var opcion string
+	//var estaVido := true
 	log.Printf("Ingrese su petición: \n[1] Jugar a Squid-Game \n[2] Jugar Etapa \n[3] Ver el Pozo")
 	fmt.Scanln(&opcion)
 
