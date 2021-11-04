@@ -4,24 +4,23 @@ import (
 	"log"
 	"net"
 
-	"github.com/CDonosoK/T2-Distribuidos/chat"
 	"google.golang.org/grpc"
+	"github.com/CDonosoK/T2-Distribuidos/chat"
 )
 
 func main() {
-
 	lis, err := net.Listen("tcp", ":9000")
 	if err != nil {
-		log.Fatalf("failed to listen: %v", err)
+		log.Fatalf("Error listening on port 9000: %v", err)
 	}
 
 	s := chat.Server{}
 
 	grpcServer := grpc.NewServer()
 
-	chat.RegisterChatServiceServer(grpcServer, &s)
+	chat.RegisterChatServer(grpcServer, &s)
 
 	if err := grpcServer.Serve(lis); err != nil {
-		log.Fatalf("failed to serve: %s", err)
+		log.Fatalf("Error starting gRPC server on port 9000: %v", err)
 	}
 }
