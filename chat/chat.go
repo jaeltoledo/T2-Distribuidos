@@ -7,10 +7,9 @@ import (
 )
 
 type Server struct {
-
 }
 
-func (s *Server) SendMessage(ctx context.Context, message *Message) (*Message, error) {
-	log.Printf("Received message: %s\n", message.body)
-	return &Message{body: "Hello from the Server!"}, nil
+func (s *Server) SayHello(ctx context.Context, msg *Message) (*Message, error) {
+	log.Printf("Mensaje recibido del cliente %s", msg.Body)
+	return &Message{Body: "Hola del servidor"}, nil
 }
