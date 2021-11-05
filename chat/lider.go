@@ -157,21 +157,35 @@ func (s *Server) Etapa2(ctx context.Context, msg *MensajeEtapa2) (*MensajeEtapa2
 	numeroLider := numeroAleatorio(1, 4)
 	log.Printf("Numero elegido por el Lider: %d", numeroLider)
 
-	if (sumaGrupo1%1 == numeroLider%1 || sumaGrupo1%2 == numeroLider%2 || sumaGrupo1%3 == numeroLider%3 || sumaGrupo1%4 == numeroLider%4){
+	if (sumaGrupo1%2 == numeroLider%2){
 		//El grupo 1 es el ganador
 		grupo1Gana = true
 	}
-	if (sumaGrupo2%1 == numeroLider%1 || sumaGrupo2%2 == numeroLider%2 || sumaGrupo2%3 == numeroLider%3 || sumaGrupo2%4 == numeroLider%4){
+	if (sumaGrupo2%2 == numeroLider%2){
 		//El grupo 2 es el ganador
 		grupo2Gana = true
 	}
 	if (grupo1Gana == true && grupo2Gana == false){
 		//El grupo 1 gana
 		fmt.Println("El grupo 1 gana")
+		//Se elimina el grupo 2
 	}
 	if (grupo1Gana == false && grupo2Gana == true){
 		//El grupo 2 gana
 		fmt.Println("El grupo 2 gana")
+		//Se elimina el grupo 1
+	}
+
+	if ( grupo1Gana && grupo2Gana){
+		//Los dos equipoas ganas
+		fmt.Println("Los dos grupos son iguales")
+		//Los dos equipos pasan
+	}
+
+	if (grupo1Gana == false && grupo2Gana == false){
+		//No hay ganador
+		fmt.Println("No hay ganador")
+		//Se elige al azar
 	}
 
 	if numeroJugador >= numeroLider {
