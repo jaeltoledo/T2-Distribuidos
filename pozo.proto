@@ -1,0 +1,11 @@
+message pedirMonto{
+    int32 body = 1;
+}
+
+message responderMonto{
+    int32 monto = 1;
+}
+
+service ChatService{
+    rpc solicitudMonto(pedirMonto) returns (responderMonto){} 
+}

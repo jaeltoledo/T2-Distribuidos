@@ -107,7 +107,7 @@ func solicitudMonto() {
 	}
 	defer conexionPozo.Close()
 
-	c := chat.NewChatServiceClient(conexionPozo)
+	c := pozo.NewChatServiceClient(conexionPozo)
 
 	mensaje := 1
 
