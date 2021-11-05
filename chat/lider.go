@@ -12,7 +12,7 @@ type Server struct {
 }
 
 var jugadoresTotales int = 16
-var jugadorActual int = 1
+var jugadorActual int = 0
 //Variables que tendrán las jugadas de los jugadores
 /*
 var jugadasJugador1 string = ""
@@ -34,6 +34,10 @@ var jugadasJugador16 string = ""
 */
 
 var jugadores [16] int;
+var grupo1 [8] int
+var grupo2 [8] int
+
+var arreglarGrupo bool = true;
 
 func numeroAleatorio(valorMin int, valorMax int) int {
 	rand.Seed(time.Now().UTC().UnixNano())
@@ -86,14 +90,53 @@ func (s *Server) Etapa1(ctx context.Context, msg *MensajeEtapa1) (*MensajeEtapa1
 	numeroJugador := int(msg.Body)
 	value := 0
 	numeroLider := numeroAleatorio(6, 10)
-	log.Printf("Numero elejido por el Lider: %d", numeroLider)
+	log.Printf("Numero elegido por el Lider: %d", numeroLider)
 
 	if numeroJugador >= numeroLider {
 		//El jugador es eliminado, por lo que se debe actualizar el pozo
 		log.Printf("Se ha eliminado un jugador")
 		value = -1
 		jugadoresTotales = jugadoresTotales -1
+		jugadores[int(msg.Id)] = 0
 	}
 	fmt.Println("Los jugadores que quedan son: ", jugadoresTotales)
+	fmt.Println(jugadores)
 	return &MensajeEtapa1{Body: int32(value)}, nil
+}
+
+func (s *Server) InicioEtapa2(ctx context.Context, msg *MensajeEtapa2) (*MensajeEtapa2, error) {
+	Value := int32(0)
+	if ((jugadoresTotales%2==0 || jugadoresTotales==1)&& arreglarGrupo) {
+		arreglarGrupo = false;
+		tocaG1 := true
+		tocaG2 := false
+		contador1 := 0
+		contador2 := 0
+		for i := 0; i <= 15; i++ {
+			if (jugadores[i] == 1){
+				if (tocaG1){
+					grupo1[contador1] = i
+					contador1++
+					tocaG1 = false
+					tocaG2 = true
+				}
+				if (tocaG2){
+					grupo2[contador2] = i
+					contador2++
+					tocaG1 = true
+					tocaG2 = false
+				}
+			}
+		}
+		fmt.Println("Los equipos han sido elegidos")
+
+	}
+	for i := 0; i <= 7; i++ {
+		if (msg.Id == int32(grupo1[i])){
+			Value = int32(1)
+		}else{
+			Value = int32(2)
+		}
+	}
+	return &MensajeEtapa2{Body: int32(1), Id: msg.Id, Group: Value}, nil
 }

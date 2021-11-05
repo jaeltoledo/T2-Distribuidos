@@ -43,7 +43,7 @@ func menuEntreEtapas() chat.MensajeEntreEtapas{
 
 func main(){
 	estaVivo := true
-	idJugador := 0
+	idJugador := int32(0)
 	var conn *grpc.ClientConn
 	conn, err := grpc.Dial(":9000", grpc.WithInsecure())
 	if err != nil {
@@ -65,7 +65,7 @@ func main(){
 		log.Fatalf("Error al llamar a Bienvenida: %s", err1)
 	}
 	log.Printf("%s", response1.Body)
-	idJugador = int(response1.Id)
+	idJugador = response1.Id
 	
 	//Petición primera etapa o ver pozo
 	message2 := menuEntreEtapas()
@@ -88,6 +88,7 @@ func main(){
 		fmt.Scan(&numeroElegido)
 		message3 := chat.MensajeEtapa1{
 			Body: int32(numeroElegido),
+			Id: idJugador,
 		}
 		response3, err3 := c.Etapa1(context.Background(), &message3)
 		if err3 != nil {
@@ -106,11 +107,11 @@ func main(){
 			break
 		}
 		if distanciaRecorrida >= 21 {
+			estaVivo = true
 			fmt.Println("----------------------------------------------")
 			fmt.Println("- Felicidades, has superado la priemra etapa -")
 			fmt.Println("----------------------------------------------")
 			fmt.Println("")
-			return
 		}
 
 	}
@@ -119,6 +120,7 @@ func main(){
 		fmt.Println("El jugador ha sido eliminado")
 		message4 := chat.MensajeEtapa1{
 			Body: int32(12),
+			Id: idJugador,
 		}
 		response4, err4 := c.Etapa1(context.Background(), &message4)
 		if err4 != nil {
@@ -128,6 +130,7 @@ func main(){
 	}
 	if estaVivo == true {
 		//Petición segunda etapa o ver pozo
+
 		message5 := menuEntreEtapas()
 		response5, err5 := c.EntreEtapas(context.Background(), &message5)
 		if err5 != nil {
@@ -148,6 +151,16 @@ func main(){
 
 	if estaVivo{
 		//Petición tercera etapa o ver pozo
+		message6 := chat.MensajeEtapa2{
+			Body: int32(1),
+			Id: idJugador,
+
+		}
+		response6, err6 := c.InicioEtapa2(context.Background(), &message6)
+		if err6 != nil {
+			log.Fatalf("Error al llamar a EntreEtapas: %s", err6)
+		}
+		fmt.Println("EL grupo asignado es: ", response6.Group)
 
 	}
 
