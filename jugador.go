@@ -43,6 +43,7 @@ func menuEntreEtapas() chat.MensajeEntreEtapas{
 
 func main(){
 	estaVivo := true
+	idJugador := ""
 	var conn *grpc.ClientConn
 	conn, err := grpc.Dial(":9000", grpc.WithInsecure())
 	if err != nil {
@@ -59,18 +60,12 @@ func main(){
 
 	//Petición de unirse al juego
 	message1 := peticionUnion()
-	if message1.Body == "2"{
-		fmt.Println("------------------------------------")
-		fmt.Println("-      Gracias por participar      -")
-		fmt.Println("------------------------------------")
-		fmt.Println("")
-		return
-	}
 	response1, err1 := c.Bienvenida(context.Background(), &message1)
 	if err1 != nil {
 		log.Fatalf("Error al llamar a Bienvenida: %s", err1)
 	}
 	log.Printf("Respuesta del servidor: %s", response1.Body)
+	idJugador = response1.Body
 	
 	//Petición primera etapa o ver pozo
 	message2 := menuEntreEtapas()
@@ -147,7 +142,7 @@ func main(){
 		fmt.Println("Segunda Etapa - Juego: Tirar la cuerda")
 		fmt.Println("--------------------------------------")
 		fmt.Println("")
-		
+
 
 	}
 

@@ -3,6 +3,7 @@ package chat
 import (
 	"log"
 	"math/rand"
+	"strconv"
 	"time"
 	"golang.org/x/net/context"
 	"fmt"
@@ -10,6 +11,27 @@ import (
 
 type Server struct {
 }
+
+var jugadoresTotales int = 1
+//Variables que tendrán las jugadas de los jugadores
+/*
+var jugadasJugador1 string = ""
+var jugadasJugador2 string = ""
+var jugadasJugador3 string = ""
+var jugadasJugador4 string = ""
+var jugadasJugador5 string = ""
+var jugadasJugador6 string = ""
+var jugadasJugador7 string = ""
+var jugadasJugador8 string = ""
+var jugadasJugador9 string = ""
+var jugadasJugador10 string = ""
+var jugadasJugador11 string = ""
+var jugadasJugador12 string = ""
+var jugadasJugador13 string = ""
+var jugadasJugador14 string = ""
+var jugadasJugador15 string = ""
+var jugadasJugador16 string = ""
+*/
 
 func numeroAleatorio(valorMin int, valorMax int) int {
 	rand.Seed(time.Now().UTC().UnixNano())
@@ -23,7 +45,8 @@ func (s *Server) Bienvenida(ctx context.Context, msg *MensajeBienvenida) (*Mensa
 	switch peticion {
 		case "1":
 			
-			value = "Bienvenido al Squid-Game"
+			value = strconv.Itoa(jugadoresTotales)
+			jugadoresTotales += 1
 			/*
 			Debe verificar cuantos están conectados, 
 			si son más de 16 no dejar entrar

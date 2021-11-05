@@ -15,7 +15,6 @@ message mensajeEtapa1{
     int32 body = 1;
 }
 
-
 service ChatService{
     rpc Bienvenida(mensajeBienvenida) returns (mensajeBienvenida) {}
     rpc EntreEtapas(mensajeEntreEtapas) returns (mensajeEntreEtapas) {}
