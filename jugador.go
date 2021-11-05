@@ -9,7 +9,7 @@ import (
 	"google.golang.org/grpc"
 )
 
-func peticionUnion() chat.MensajeBienvenida{
+func peticionUnion() chat.MensajeBienvenida {
 	var opcion string
 	log.Printf("Desea unirse al juego? \n[1] Si \n[2] No")
 	fmt.Scanln(&opcion)
@@ -21,29 +21,28 @@ func peticionUnion() chat.MensajeBienvenida{
 	return message
 }
 
-func menuEntreEtapas() chat.MensajeEntreEtapas{
+func menuEntreEtapas() chat.MensajeEntreEtapas {
 	var opcion string
 	log.Printf("Ingrese su petición: \n[1] Jugar siguiente etapa \n[2] Ver el pozo")
 	fmt.Scanln(&opcion)
 
 	message := chat.MensajeEntreEtapas{
 		Body: "-",
-		}
+	}
 	switch opcion {
-		case "1":
-			message.Body = "1"
-		case "2":
-			message.Body = "2"
+	case "1":
+		message.Body = "1"
+	case "2":
+		message.Body = "2"
 	}
 
 	return message
 
 }
 
-
-func main(){
+func main() {
 	estaVivo := true
-	idJugador := 0
+	//idJugador := 0
 	var conn *grpc.ClientConn
 	conn, err := grpc.Dial(":9000", grpc.WithInsecure())
 	if err != nil {
@@ -51,7 +50,7 @@ func main(){
 	}
 	defer conn.Close()
 
-	c:= chat.NewChatServiceClient(conn)
+	c := chat.NewChatServiceClient(conn)
 
 	fmt.Println("------------------------------------")
 	fmt.Println("-     Bienvenido al Squid-Game     -")
@@ -65,8 +64,8 @@ func main(){
 		log.Fatalf("Error al llamar a Bienvenida: %s", err1)
 	}
 	log.Printf("%s", response1.Body)
-	idJugador = int(response1.Id)
-	
+	//idJugador = int(response1.Id)
+
 	//Petición primera etapa o ver pozo
 	message2 := menuEntreEtapas()
 	response2, err2 := c.EntreEtapas(context.Background(), &message2)
@@ -95,12 +94,12 @@ func main(){
 		}
 
 		switch response3.Body {
-			case int32(0):
-				distanciaRecorrida += numeroElegido
-				fmt.Println("Distancia recorrida: ", distanciaRecorrida)
-			case int32(-1):
-				fmt.Println("El jugador ha sido eliminado")
-				estaVivo = false
+		case int32(0):
+			distanciaRecorrida += numeroElegido
+			fmt.Println("Distancia recorrida: ", distanciaRecorrida)
+		case int32(-1):
+			fmt.Println("El jugador ha sido eliminado")
+			estaVivo = false
 		}
 		if estaVivo == false {
 			break
@@ -136,30 +135,28 @@ func main(){
 		log.Printf("Respuesta del servidor: %s", response5.Body)
 	}
 
-	if estaVivo{
+	if estaVivo {
 		//Iniciar la segunda etapa
 		fmt.Println("--------------------------------------")
 		fmt.Println("Segunda Etapa - Juego: Tirar la cuerda")
 		fmt.Println("--------------------------------------")
 		fmt.Println("")
 
-
 	}
 
-	if estaVivo{
+	if estaVivo {
 		//Petición tercera etapa o ver pozo
 
 	}
 
-	if estaVivo{
+	if estaVivo {
 		//Iniciar la tercera etapa
 
 	}
 
-	if estaVivo{
+	if estaVivo {
 		//Obtener las ganancias
 
 	}
-	
-	
+
 }

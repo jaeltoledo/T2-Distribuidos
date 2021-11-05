@@ -1,11 +1,12 @@
 package chat
 
 import (
+	"fmt"
 	"log"
 	"math/rand"
 	"time"
+
 	"golang.org/x/net/context"
-	"fmt"
 )
 
 type Server struct {
@@ -13,6 +14,7 @@ type Server struct {
 
 var jugadoresTotales int = 16
 var jugadorActual int = 1
+
 //Variables que tendrán las jugadas de los jugadores
 /*
 var jugadasJugador1 string = ""
@@ -33,11 +35,11 @@ var jugadasJugador15 string = ""
 var jugadasJugador16 string = ""
 */
 
-var jugadores [16] int;
+var jugadores [16]int
 
 func numeroAleatorio(valorMin int, valorMax int) int {
 	rand.Seed(time.Now().UTC().UnixNano())
-	return valorMin+rand.Intn(valorMax-valorMin)
+	return valorMin + rand.Intn(valorMax-valorMin)
 }
 
 func (s *Server) Bienvenida(ctx context.Context, msg *MensajeBienvenida) (*MensajeBienvenida, error) {
@@ -47,16 +49,16 @@ func (s *Server) Bienvenida(ctx context.Context, msg *MensajeBienvenida) (*Mensa
 	fmt.Println("Dejar entrar al jugador ID: ", jugadorActual)
 	fmt.Scan(&value)
 	switch peticion {
-		case "1":
-			
-			value = "Usted ha sido aceptado para participar"
-			id = jugadorActual
-			jugadores[id] = 1
-			jugadorActual += 1
-			/*
-			Debe verificar cuantos están conectados, 
+	case "1":
+
+		value = "Usted ha sido aceptado para participar"
+		id = jugadorActual
+		jugadores[id] = 1
+		jugadorActual += 1
+		/*
+			Debe verificar cuantos están conectados,
 			si son más de 16 no dejar entrar
-			*/
+		*/
 	}
 	return &MensajeBienvenida{Body: value, Id: int32(id)}, nil
 }
@@ -65,19 +67,19 @@ func (s *Server) EntreEtapas(ctx context.Context, msg *MensajeEntreEtapas) (*Men
 	peticion := msg.Body
 	value := ""
 	switch peticion {
-		case "1":
-			fmt.Printf("Ingrese 'comenzar' para iniciar la siguiente etapa: ")
-			fmt.Scan(&value)
-			value = "Se da por iniciada la etapa"
-			/*
+	case "1":
+		fmt.Printf("Ingrese 'comenzar' para iniciar la siguiente etapa: ")
+		fmt.Scan(&value)
+		value = "Se da por iniciada la etapa"
+		/*
 			El jugador puede pasar a la siguiente etapa
-			*/
-		case "2":
-			log.Printf("Petición recibida: %s", msg.Body)
-			value = "Puedes ver el pozo"
-			/*
+		*/
+	case "2":
+		log.Printf("Petición recibida: %s", msg.Body)
+		value = "Puedes ver el pozo"
+		/*
 			Comunicación al pozo para recibir información y luego devolverla
-			*/
+		*/
 	}
 	return &MensajeEntreEtapas{Body: value}, nil
 }
@@ -92,8 +94,26 @@ func (s *Server) Etapa1(ctx context.Context, msg *MensajeEtapa1) (*MensajeEtapa1
 		//El jugador es eliminado, por lo que se debe actualizar el pozo
 		log.Printf("Se ha eliminado un jugador")
 		value = -1
-		jugadoresTotales = jugadoresTotales -1
+		jugadoresTotales = jugadoresTotales - 1
 	}
 	fmt.Println("Los jugadores que quedan son: ", jugadoresTotales)
 	return &MensajeEtapa1{Body: int32(value)}, nil
+}
+
+func solicitudMonto() {
+	conexionPozo, err := grpc.Dial(":9001", grpc.WithInsecure(), grpc.WithBlock())
+	if err != nil {
+		log.Fatalf("ERROR: %v", err)
+	}
+	defer conexionPozo.Close()
+
+	c := chat.NewChatServiceClient(conexionPozo)
+
+	mensaje := 1
+
+	respuesta, err := c.solicitudMonto(context.Background(), &mensaje)
+	if err != nil {
+		log.Fatalf("Error al recibir monto: %s", err)
+	}
+	fmt.Println("Monto acumulado: %i", respuesta)
 }

@@ -18,8 +18,17 @@ message mensajeEtapa1{
     int32 id = 2;
 }
 
+message pedirMonto{
+    int32 body = 1;
+}
+
+message responderMonto{
+    int32 monto = 1;
+}
+
 service ChatService{
     rpc Bienvenida(mensajeBienvenida) returns (mensajeBienvenida) {}
     rpc EntreEtapas(mensajeEntreEtapas) returns (mensajeEntreEtapas) {}
     rpc Etapa1(mensajeEtapa1) returns (mensajeEtapa1) {}
+    rpc solicitudMonto(pedirMonto) returns (responderMonto){} 
 }
