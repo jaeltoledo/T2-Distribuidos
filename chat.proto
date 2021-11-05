@@ -5,14 +5,17 @@ option go_package = "./;chat";
 
 message mensajeBienvenida{
     string body = 1;
+    int32 id = 2;
 }
 
 message mensajeEntreEtapas{
     string body = 1;
+    int32 id = 2;
 }
 
 message mensajeEtapa1{
     int32 body = 1;
+    int32 id = 2;
 }
 
 service ChatService{

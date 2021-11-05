@@ -3,7 +3,6 @@ package chat
 import (
 	"log"
 	"math/rand"
-	"strconv"
 	"time"
 	"golang.org/x/net/context"
 	"fmt"
@@ -12,7 +11,8 @@ import (
 type Server struct {
 }
 
-var jugadoresTotales int = 1
+var jugadoresTotales int = 16
+var jugadorActual int = 1
 //Variables que tendrán las jugadas de los jugadores
 /*
 var jugadasJugador1 string = ""
@@ -33,6 +33,8 @@ var jugadasJugador15 string = ""
 var jugadasJugador16 string = ""
 */
 
+var jugadores [16] int;
+
 func numeroAleatorio(valorMin int, valorMax int) int {
 	rand.Seed(time.Now().UTC().UnixNano())
 	return valorMin+rand.Intn(valorMax-valorMin)
@@ -41,18 +43,22 @@ func numeroAleatorio(valorMin int, valorMax int) int {
 func (s *Server) Bienvenida(ctx context.Context, msg *MensajeBienvenida) (*MensajeBienvenida, error) {
 	peticion := msg.Body
 	value := ""
-	log.Printf("El lider se ha conectado")
+	id := 1
+	fmt.Println("Dejar entrar al jugador ID: ", jugadorActual)
+	fmt.Scan(&value)
 	switch peticion {
 		case "1":
 			
-			value = strconv.Itoa(jugadoresTotales)
-			jugadoresTotales += 1
+			value = "Usted ha sido aceptado para participar"
+			id = jugadorActual
+			jugadores[id] = 1
+			jugadorActual += 1
 			/*
 			Debe verificar cuantos están conectados, 
 			si son más de 16 no dejar entrar
 			*/
 	}
-	return &MensajeBienvenida{Body: value}, nil
+	return &MensajeBienvenida{Body: value, Id: int32(id)}, nil
 }
 
 func (s *Server) EntreEtapas(ctx context.Context, msg *MensajeEntreEtapas) (*MensajeEntreEtapas, error) {
@@ -84,8 +90,10 @@ func (s *Server) Etapa1(ctx context.Context, msg *MensajeEtapa1) (*MensajeEtapa1
 
 	if numeroJugador >= numeroLider {
 		//El jugador es eliminado, por lo que se debe actualizar el pozo
+		log.Printf("Se ha eliminado un jugador")
 		value = -1
+		jugadoresTotales = jugadoresTotales -1
 	}
+	fmt.Println("Los jugadores que quedan son: ", jugadoresTotales)
 	return &MensajeEtapa1{Body: int32(value)}, nil
 }
-

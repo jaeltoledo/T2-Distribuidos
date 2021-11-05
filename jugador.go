@@ -43,7 +43,7 @@ func menuEntreEtapas() chat.MensajeEntreEtapas{
 
 func main(){
 	estaVivo := true
-	idJugador := ""
+	idJugador := 0
 	var conn *grpc.ClientConn
 	conn, err := grpc.Dial(":9000", grpc.WithInsecure())
 	if err != nil {
@@ -64,8 +64,8 @@ func main(){
 	if err1 != nil {
 		log.Fatalf("Error al llamar a Bienvenida: %s", err1)
 	}
-	log.Printf("Respuesta del servidor: %s", response1.Body)
-	idJugador = response1.Body
+	log.Printf("%s", response1.Body)
+	idJugador = int(response1.Id)
 	
 	//Petición primera etapa o ver pozo
 	message2 := menuEntreEtapas()

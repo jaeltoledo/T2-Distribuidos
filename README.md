@@ -21,3 +21,8 @@ Es de suma importancia ejecutar en el siguiente orden las máquinas
 
 En cada máquina aparecerán las instrucciones correspondientes sobre como continuar.
 
+### IMPORTANTE:
+
+- Se asumirá que los jugadores son inteligentes, esto quiere decir que no eligiran valores extraños o valores fuera de los límites especificados en la tarea.
+- El lider deberá contestar uno por uno a cada jugagador, para que así ninguno se quede atrás en el juego y tenga sentido la competencia.
+
