@@ -33,9 +33,14 @@ var jugadasJugador15 string = ""
 var jugadasJugador16 string = ""
 */
 
-var jugadores [16] int;
+var jugadores [16] int
 var grupo1 [8] int
+var sumaGrupo1 int = 0
 var grupo2 [8] int
+var sumaGrupo2 int = 0
+
+var grupo1Gana bool
+var grupo2Gana bool
 
 var arreglarGrupo bool = true;
 
@@ -139,4 +144,44 @@ func (s *Server) InicioEtapa2(ctx context.Context, msg *MensajeEtapa2) (*Mensaje
 		}
 	}
 	return &MensajeEtapa2{Body: int32(1), Id: msg.Id, Group: Value}, nil
+}
+
+func (s *Server) Etapa2(ctx context.Context, msg *MensajeEtapa2) (*MensajeEtapa2, error) {
+
+	if (msg.Group == int32(1)){
+		sumaGrupo1 += int(msg.Body)
+	}
+	else{
+		sumaGrupo2 += int(msg.Body)
+	}
+	numeroLider := numeroAleatorio(1, 4)
+	log.Printf("Numero elegido por el Lider: %d", numeroLider)
+
+	if (sumaGrupo1%1 == numeroLider%1 || sumaGrupo1%2 == numeroLider%2 || sumaGrupo1%3 == numeroLider%3 || sumaGrupo1%4 == numeroLider%4){
+		//El grupo 1 es el ganador
+		grupo1Gana = true
+	}
+	if (sumaGrupo2%1 == numeroLider%1 || sumaGrupo2%2 == numeroLider%2 || sumaGrupo2%3 == numeroLider%3 || sumaGrupo2%4 == numeroLider%4){
+		//El grupo 2 es el ganador
+		grupo2Gana = true
+	}
+	if (grupo1Gana == true && grupo2Gana == false){
+		//El grupo 1 gana
+		fmt.Println("El grupo 1 gana")
+	}
+	if (grupo1Gana == false && grupo2Gana == true){
+		//El grupo 2 gana
+		fmt.Println("El grupo 2 gana")
+	}
+
+	if numeroJugador >= numeroLider {
+		//El jugador es eliminado, por lo que se debe actualizar el pozo
+		log.Printf("Se ha eliminado un jugador")
+		value = -1
+		jugadoresTotales = jugadoresTotales -1
+		jugadores[int(msg.Id)] = 0
+	}
+	fmt.Println("Los jugadores que quedan son: ", jugadoresTotales)
+	fmt.Println(jugadores)
+	return &MensajeEtapa2{Body: }, nil
 }

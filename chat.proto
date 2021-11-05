@@ -29,4 +29,5 @@ service ChatService{
     rpc EntreEtapas(mensajeEntreEtapas) returns (mensajeEntreEtapas) {}
     rpc Etapa1(mensajeEtapa1) returns (mensajeEtapa1) {}
     rpc InicioEtapa2(mensajeEtapa2) returns (mensajeEtapa2) {}
+    rpc Etapa2(mensajeEtapa2) returns (mensajeEtapa2) {}
 }
